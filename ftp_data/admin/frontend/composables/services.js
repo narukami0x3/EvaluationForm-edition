@@ -6,6 +6,25 @@ export const useService = () =>{
     const UserStore = useUserStore()
     const navigate = useRouter()
 
+
+//     const mapdata = (ep,indicators,forms) => {
+//    const epMap = {}
+
+//    ep.forEach(e => {
+//         epMap[e.ep_id] = {...e,indicators:[]}
+//    });
+//    indicators.forEach(ind => {
+//         epMap[ind.ep_id]?.indicators.push({...ind,subs:[]})
+//    });
+//    forms.forEach(f => {
+//         Object.values(epMap).forEach(ep => {
+//             ep.indicators.find(i => (i.indicator_id == f.indicator_id))
+//             ?.subs.push({...f})
+//         });
+//     });
+//     return Object.values(epMap)
+// }
+
     const login = async(u,p) =>{
         if(u == "" || p == ""){
             alert("กรุณากรอกชื่อหรือรหัสผ่าน")
@@ -23,8 +42,7 @@ export const useService = () =>{
             console.log(UserStore.user)
             if(UserStore.user.role == "1"){
                 navigate.push("/admin/Dashboard/")
-            }
-            else{
+            }else{
                 navigate.push("/user/Dashboard/")
             }
         }
@@ -55,6 +73,44 @@ export const useService = () =>{
         }
     }
 
+    const edituser = async(u,p,email,czid,bdate,phone,sal,po,level,dep) => {
+        try {
+            const res = await axios.put("api/admin/edituser",{
+                username: u,
+                email: email,
+                password: p,
+                czid: czid,
+                bdate: bdate,
+                phone: phone,
+                sal: sal,
+                po: po,
+                level: level,
+                dep: dep,
+            })
+            alert(res.data.data.message)
+        }
+        catch(err){
+            alert(err.response.data.message)
+        }
+    }
+
+    const deluser = async(id) => {
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.delete(`/${id}`,{
+                data: {
+                    token: token,
+                }
+            })
+            alert("Delete success")
+            window.location.reload()
+        }catch(err){
+            alert("Something Went Wrong")
+            console.log(err)
+        }
+    }
+
     const userdata = async() => {
         UserStore.LoadUser()
         const token = UserStore.token
@@ -79,9 +135,8 @@ export const useService = () =>{
                 indicator: h,
                 weight: w,
             })
-
-            alert(res.data.data.message)
-
+            alert("เพิ่มสำเร็จ")
+            window.location.reload()
         }catch(err){
             alert(err.response.data.message)
         }
@@ -189,7 +244,67 @@ export const useService = () =>{
         }
     }
 
+    const addform = async(ind,dt,type,req,head) => {
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.post("api/admin/section",{
+                section: head,
+                token:  token,
+                indicator_id: ind,
+                detail: dt,
+                type: type,
+                file: req,
+            })
+            alert("เพิ่มแบบประเมินสำเร็จ")
+            console.log(res)
+        }catch(err){
+            alert("Something Went Wrong")
+            console.log(err)
+        }
+    }
+
+    const checktime = async() =>{
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.get("api/user/time",{
+                headers: {
+                    token: token
+                }
+            })
+            return res.data.data
+        }catch(err){
+            alert("Something Went Wrong")
+            console.log(err)
+        }
+    }
+
+    const userform = async(tid) => {
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.get("api/user/form",{
+                headers: {
+                    time: tid,
+                    token: token,
+                }
+            })
+            return res.data.data
+        }catch(err){
+            alert("Something Went Wrong")
+            console.log(err)
+        }
+    }
+
+
+
     return {
+        checktime,
+        userform,
+        deluser,
+        edituser,
+        addform,
         getindi,
         getalluser,
         addgroup,

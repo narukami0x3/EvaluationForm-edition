@@ -3,5 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint', '@pinia/nuxt'],
-  css: ['@mdi/font/css/materialdesignicons.min.css']
+  css: ['@mdi/font/css/materialdesignicons.min.css',"assets/css/main.css"]
 })
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>One-line Choices Form</title>
+  <style>
+    .options label {
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Survey Form</h2>
+
+  <form action="#" method="post">
+
+    <!-- 1 2 3 4 -->
+    <p>1. Rate your satisfaction</p>
+    <div class="options">
+      <label><input type="radio" name="q1" value="1"> 1</label>
+      <label><input type="radio" name="q1" value="2"> 2</label>
+      <label><input type="radio" name="q1" value="3"> 3</label>
+      <label><input type="radio" name="q1" value="4"> 4</label>
+    </div>
+
+    <!-- Yes / No -->
+    <p>2. Would you recommend this?</p>
+    <div class="options">
+      <label><input type="radio" name="q2" value="yes"> มี หรือ ไม่มี</label>
+      <label><input type="radio" name="q2" value="no">  แบบ สเกลคะแนน</label>
+    </div>
+
+    <br>
+    <button type="submit">Submit</button>
+
+  </form>
+
+</body>
+</html>

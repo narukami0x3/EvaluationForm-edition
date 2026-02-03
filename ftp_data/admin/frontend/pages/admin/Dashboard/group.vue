@@ -21,12 +21,12 @@
             :key="index"
             class="flex gap-2 items-center"
           >
-            <select name="" id="" v-model="member.user_id" class="border w-full rounded py-2.5 border-2">
+            <select name="" id="" v-model="member.user_id" class="input-feild">
               <option :value="u.id" v-for="u in user" :key="u.id" >{{ u.username }}</option>
             </select>
             <select
               v-model="member.role"
-              class="w-40 rounded-md border-gray-300 p-2 border focus:ring-red-500 focus:border-red-500"
+              class="input-field"
             >
               <option v-for="role in roles" :key="role" :value="role">
                 {{ role }}

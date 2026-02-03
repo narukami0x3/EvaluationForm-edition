@@ -1,0 +1,29 @@
+.btn-blue {
+  @apply text-white px-3 py-2 rounded-md w-full bg-blue-600 hover:bg-blue-800 transition-colors duration-200 
+}
+.btn {
+  @apply text-white px-4 py-2 rounded shadow transition-colors;
+}
+.input-field {
+  @apply w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none;
+}
+.label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+.badge {
+  @apply px-2 py-1 text-xs font-bold rounded text-gray-700;
+}.card {
+  @apply bg-white rounded-lg p-6 border-2 shadow-lg;
+}
+.card-t-blue{
+  @apply bg-white rounded-lg shadow-lg border-t-4 border-blue-600 p-6;
+}
+.model-overlay {
+  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+}
+.border-l-blue {
+  @apply border-l-8 border-blue-600 px-3
+}
+.input-field-disable {
+  @apply w-full border border-gray-300 rounded p-2 outline-none  cursor-not-allowed;
+}

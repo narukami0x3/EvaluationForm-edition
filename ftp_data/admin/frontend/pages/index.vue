@@ -16,25 +16,25 @@
                         {{ time.time }}
                     </div>
                     <div>
-                        <label for="">เริ่มการประเมิน {{ time.start }}</label>
+                        <label for="">เริ่มการประเมิน {{ TH(time.start) }}</label>
                     </div>
                     <div>
-                        <label for="">ปิดการประเมิน {{ time.expire }}</label>
+                        <label for="">ปิดการประเมิน {{ TH(time.expire) }}</label>
                     </div>
                 </div>
             </div>
             <div class="flex justify-end px-2 py-2 ">
                 <div>
-                    <div class="bg-white p-6 mt-2 mb-2 rounded-md">
+                    <div class="card-t-blue">
                         <div class="text-center">
-                            <label class="font-bold " for="">Login</label>
+                            <label class="font-bold " for="">LOGIN</label>
                         </div>
                         <div class="mt-2">
                             <label class="label" for="">Username</label>
                             <input class="input-field" type="text" name="" id="" v-model="u">
                         </div>
                          <div class="mt-2">
-                            <label for="">Password</label>
+                            <label class="label" for="">Password</label>
                             <input class="input-field" type="password" name="" id="" v-model="p">
                         </div>
                         <div>
@@ -60,6 +60,20 @@ const u = ref("")
 const p = ref("")
 const t = ref([""])
 
+// const formatDateTH = (dateStr) => {
+//   const d = new Date(dateStr)
+
+//   const day = d.getDate()
+//   const month = d.getMonth() + 1
+//   const year = d.getFullYear() + 543 // แปลงเป็น พ.ศ.
+
+//   return `${day}/${month}/${year}`
+// }
+
+const TH = (datestr) => {
+    return new Date(datestr).toLocaleDateString("th-TH")
+}
+
 
 const loadtime = async() => {
     const res = await time()
@@ -73,4 +87,5 @@ onMounted(() => {
 </script>
 
 <style>
+
 </style>

@@ -12,7 +12,7 @@ app.use(cors())
 app.use((req,res,next)=>{
     res.on('finish', () => {
         console.log(`${req.method} ${res.statusCode} ${req.originalUrl}`)
-        // console.log(req.headers)
+        console.log(req.headers)
         // console.log(req.body)
     })
     next()
@@ -20,6 +20,7 @@ app.use((req,res,next)=>{
 
 app.use('/api/auth',require('./routes/authroutes'))
 app.use('/api/admin',require('./routes/adminroutes'))
+app.use('/api/user',require('./routes/userroutes'))
 
 app.use((req,res)=>{
     res.status(404).json({error: "Page Not Found"})

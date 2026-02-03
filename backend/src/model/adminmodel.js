@@ -148,14 +148,14 @@ async function getsection() {
     }finally{conn.release()}
 }
 
-async function insertsection(section,detail,type) {
+async function insertsection(section,indicator,detail,file,type) {
     let conn = await pool.getConnection()
     try{
         const [row1] = await conn.query(
             `
-            INSERT INTO section (section,detail,type) VALUES (?,?,?)
+            INSERT INTO section (section,indicator_id,detail,file,type) VALUES (?,?,?,?,?)
             `,
-            [section,detail,type]
+            [section,indicator,detail,file,type]
         )
         return row1.affectedRows || null
     }finally{conn.release()}
@@ -176,5 +176,24 @@ async function edituser(username,password,email,czid,salary,birthday,department,
     }finally{conn.release()}
 }
 
+async function getresult() {
+    let conn = await pool.getConnection()
+    try{
+        const [row1] = await conn.query(
+            `
+            SELECT
+            r.result_id,
+            r.selfscore,
+            r.boardscore,
+            s.section_id,
+            i.weight
+            FROM result r
+            JOIN section s ON s.section_id = r.section_id
+            JOIN indicator i ON i.indicator_id = s.section_id
+            `
+        )
+        return row1
+    }finally{conn.release()}
+}
 
-module.exports = {gettime,insertgroup,insertmember,time,deletemember,insertsection,getuser,deletegroup,insertindicator,edituser,getindicator,getsection}
+module.exports = {gettime,insertgroup,insertmember,time,deletemember,insertsection,getuser,deletegroup,insertindicator,edituser,getindicator,getsection,getresult}
