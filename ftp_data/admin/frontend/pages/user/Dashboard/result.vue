@@ -50,7 +50,7 @@
           </tr>
 
           <tr>
-            <td colspan="5" class="text-center py-6 text-gray-500">
+            <td colspan="6" class="text-center py-6 text-gray-500">
               ไม่มีข้อมูลการประเมิน
             </td>
           </tr>
@@ -62,40 +62,20 @@
 </template>
 
 <script setup>
-// import { ref, onMounted } from 'vue'
-// import axios from 'axios'
-// import { useUserStorage } from '../../../composables/UserStore'
-// import { jwtDecode } from 'jwt-decode'
+import { Formservice } from '../../../composables/form';
 
-// const UserStorage = useUserStorage()
-// const evaluationData = ref([])
+const {userresult} = Formservice()
 
-// onMounted(() => {
-//   UserStorage.LoadUser()
+const ld = async() => {
+  try {
+    const res = await userresult()
+    console.log(res)
+  }catch(err){
+    console.log(err)
+  }
+}
 
-//   const decode = jwtDecode(UserStorage.token)
-//   const id = decode.id
-
-//   axios
-//     .get(`api/admin/getuserresult`,{
-//       headers: {
-//         token: UserStorage.token
-//       }
-//     })
-//     .then(res => {
-//       const rawData = res.data.data || []
-
-//       evaluationData.value = rawData.map(item => ({
-//         userName: item.user_username,
-//         boardName: item.board_username,
-//         selfScore: item.user_sum,
-//         judgeScore: item.board_sum,
-//         comment: item.board_comment
-//       }))
-//     })
-//     .catch(err => {
-//       console.error(err)
-//       alert('เกิดข้อผิดพลาดในการโหลดข้อมูล')
-//     })
-// })
+onMounted(() => {
+  ld()
+})
 </script>

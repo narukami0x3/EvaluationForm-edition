@@ -1,14 +1,44 @@
 const {pool} = require('./conn')
 
-async function getuser() {
+async function getuser(id) {
     let conn = await pool.getConnection()
     try{
         const [row1] = await conn.query(
             `
-            SELECT * FROM users
-            `
+            SELECT 
+            u.id,
+            u.username
+            FROM users u
+            WHERE u.id IN (SELECT user_id FROM result WHERE board_id IS NULL) AND id IN (SELECT user_id FROM groupmember WHERE user_id = u.id AND board_id = ?)
+            `,
+            [id]
         )
         return row1
+    }finally{conn.release()}
+}
+
+async function getgroup() {
+    let conn = await pool.getConnection()
+    try{
+        const [row1] = await conn.query(
+            `
+            SELECT * FROM boardgroup
+            `
+        )
+        const [row2] = await conn.query(
+            `
+            SELECT
+            g.member_id,
+            g.group_id,
+            g.user_id,
+            g.group_id,
+            g.group_role,
+            u.username
+            FROM groupmember g
+            JOIN users u ON u.id = g.user_id
+            `
+        )
+        return [row1,row2]
     }finally{conn.release()}
 }
 
@@ -196,4 +226,4 @@ async function getresult() {
     }finally{conn.release()}
 }
 
-module.exports = {gettime,insertgroup,insertmember,time,deletemember,insertsection,getuser,deletegroup,insertindicator,edituser,getindicator,getsection,getresult}
+module.exports = {gettime,insertgroup,insertmember,time,deletemember,insertsection,getuser,deletegroup,insertindicator,edituser,getindicator,getsection,getresult,getgroup,deletetime}

@@ -4,6 +4,16 @@ const jwt = require('jsonwebtoken')
 exports.gettime = async (req,res) => {
     try{
         const row = await model.gettime()
+        res.status(200).json({test: row})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({error: "database error", data: null})
+    }
+}
+
+exports.getgroup = async (req,res) => {
+    try{
+        const row = await model.getgroup()
         res.status(200).json({data: row})
     }catch(e){
         console.log(e)
@@ -12,8 +22,9 @@ exports.gettime = async (req,res) => {
 }
 
 exports.getuser = async (req,res) => {
+    const {id} = req.params
     try{
-        const row = await model.getuser()
+        const row = await model.getuser(id)
         res.status(200).json({data: row})
     }catch(e){
         console.log(e)
@@ -44,7 +55,15 @@ exports.getsection = async (req,res) => {
 exports.getresult = async (req,res) => {
     try{
         const row = await model.getresult()
-        res.status(200).json({data: row})
+        let sum = 0
+        let score = 0
+        for (item of row){
+            if (item.selfscore == "yes" || item.selfscore == "no") {score = 4}
+            else{score = item.selfscore}
+            sum = sum + (score * item.weight)
+            console.log(sum)
+        }
+        res.status(200).json({data: row , sum: sum})
     }catch(e){
         console.log(e)
         res.status(500).json({error: "database error", data: null})
@@ -57,7 +76,7 @@ exports.insertgroup = async (req,res) => {
         if(jwt.decode(token).role != 1) return res.status(401).json({error: "access denied"})
         const row = await model.insertgroup(member)
         if(!row) return res.status(400).json({error: "group failed"})
-        res.status(200).json({data: row})
+        res.status(200).json({data: "สร้างกรุ่มกรรมการสำเร็จ"})
     }catch(e){
         console.log(e)
         res.status(500).json({error: "database error", data: null})
@@ -116,7 +135,8 @@ exports.insertsection = async (req,res) => {
     }
 }
 exports.deletegroup = async (req,res) => {
-    const {group_id,token} = req.body
+    const {group_id} = req.params
+    const {token} = req.body
     try{
         if(jwt.decode(token).role != 1) return res.status(401).json({error: "access denied"})
         const row = await model.deletegroup(group_id)
@@ -128,7 +148,8 @@ exports.deletegroup = async (req,res) => {
     }
 }
 exports.deletemember = async (req,res) => {
-    const {user_id,group_id,token} = req.body
+    const {user_id,group_id} = req.params
+    const {token} = req.body
     try{
         if(jwt.decode(token).role != 1) return res.status(401).json({error: "access denied"})
         const row = await model.deletememeber(user_id,group_id)

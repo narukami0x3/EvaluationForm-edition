@@ -1,6 +1,6 @@
 <template>
-  <div class="relative">
-    <div class="flex">
+  <div class="relative h-screen overflow-hidden">
+    <div class="flex h-full">
       <div
         class="bg-gradient-to-r from-red-950 to-red-800 h-screen px-2.5 py-3"
       >
@@ -175,7 +175,7 @@
         </div>
       </div>
 
-      <div class="w-full h-screen">
+      <div class="flex-1 overflow-y-auto">
         <NuxtPage />
       </div>
     </div>

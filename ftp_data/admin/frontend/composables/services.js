@@ -213,6 +213,20 @@ export const useService = () =>{
         }
     }
 
+    const getgroup = async(g) => {
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.get("api/admin/group",{
+                token: token,
+                member: g,
+            })
+            return res.data.data
+        }catch(err){
+            alert(err)
+        }
+    }
+
     const getalluser = async() => {
         UserStore.LoadUser()
         const token = UserStore.token
@@ -297,9 +311,27 @@ export const useService = () =>{
         }
     }
 
-
+    const delgroup = async(id) => {
+        UserStore.LoadUser()
+        const token = UserStore.token
+        try{
+            const res = await axios.delete(`api/admin/group/${id}`,{
+                data:{
+                    token: token
+                }
+            })
+            alert("ลบสำเร็จ")
+            console.log(res)
+            window.location.reload()
+        }catch(err){
+            alert("Something Went Wrong")
+            console.log(err)
+        }
+    }
 
     return {
+        delgroup,
+        getgroup,
         checktime,
         userform,
         deluser,

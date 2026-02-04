@@ -65,22 +65,29 @@ async function gettime() {
     }finally{conn.release()}
 }
 
-async function insertresult(result) {
+async function insertresult(section_id,time_id,user_id,selfscore,filename) {
     let conn = await pool.getConnection()
-    const user_id = result[0].user_id
-    const time_id = result[0].time_id
     try{
-        let row1
-        for (item of result) {
-            row1 = await conn.query(
-                `INSERT INTO result (section_id,time_id,user_id,selfscore) VALUES (?,?,?,?)`,
-            [item.section_id,item.time_id,item.user_id,item.selfscore]
-            )
-        }
+        row1 = await conn.query(
+            `INSERT INTO result (section_id,time_id,user_id,selfscore,filename) VALUES (?,?,?,?,?)`,
+        [section_id,time_id,user_id,selfscore,filename]
+        )
+        return row1
+    }finally{conn.release()}
+}
+
+async function insertattachment(time_id,user_id) {
+    let conn = await pool.getConnection()
+    try{
+        row1 = await conn.query(
+            `INSERT INTO attachment (time_id,user_id) VALUES (?,?)`,
+        [time_id,user_id]
+        )
         return row1
     }finally{conn.release()}
 }
 
 
 
-module.exports = {getform,gettime,insertresult}
+
+module.exports = {getform,gettime,insertresult,insertattachment}
