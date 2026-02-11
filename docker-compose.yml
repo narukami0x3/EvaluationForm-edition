@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: asdf
+    volumes:
+      - mysql:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_AUTH_TYPE: cookie
+
+  ftp:
+    image: fauria/vsftpd
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    environment:
+      FTP_USER: admin
+      FTP_PASS: asdf
+      PASV_ADDRESS: 192.168.88.252
+      PASV_MIN_PORT: 21100
+      PASV_MAX_PORT: 21110
+      PASV_ENABLE: "YES"
+      LOCAL_UMASK: "022"
+      FILE_OPEN_MODE: "0666"
+      REVERSE_LOOKUP_ENABLE: "NO"
+      LOG_STDOUT: "YES"
+
+    volumes:
+      - ./ftp_data:/home/vsftpd
+
+volumes:
+  mysql:
+  ftp_data:
